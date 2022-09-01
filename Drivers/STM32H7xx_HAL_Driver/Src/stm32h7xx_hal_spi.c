@@ -129,7 +129,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
-
+#include "CDD_L9963_drv.h"
 /** @addtogroup STM32H7xx_HAL_Driver
   * @{
   */
@@ -1377,6 +1377,9 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi, uint8_t *pTxD
   /* Transmit and Receive data in 8 Bit mode */
   else
   {
+		
+			L9963_SPI_CS_SELECT;
+
     while ((initial_TxXferCount > 0UL) || (initial_RxXferCount > 0UL))
     {
       /* Check the TXP flag */
@@ -1411,6 +1414,8 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi, uint8_t *pTxD
         return HAL_TIMEOUT;
       }
     }
+		
+		L9963_SPI_CS_UNSELECT;
   }
 
   /* Wait for Tx/Rx (and CRC) data to be sent/received */

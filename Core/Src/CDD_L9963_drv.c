@@ -55,6 +55,20 @@ static void Delay(unsigned long cnt){
 
 }
 
+void smallEndToBigEnd(uint8* spi_rx)
+{
+	uint8 temp;
+	for(int i = 0; i <=1 ;i++)
+	{
+			temp = spi_rx[i];
+	    spi_rx[i] = spi_rx[4 - i];
+		//  temp = (temp<<4)|(temp>>4);
+			spi_rx[4 - i] = temp;
+	}
+	
+	//return spi_rx;
+}
+
 
 tabcrcConfigSet_t L9963crc_Config =
 { (40 - 6),    //frame_lengh (frame length number of active data bits [0..2040])
@@ -449,11 +463,15 @@ uint8 L9963_Single_Write(L9963_Addr_t addr, uint8 device_id, uint32 data,
 //	L9963_SPI_CS_UNSELECT;
 
 
-L9963_SPI_CS_SELECT;
+  //L9963_SPI_CS_SELECT;
 	GCDD_L9963_TxData(&spi_mosi[0],
 			(((uint8 *) spi_rx) ), 5);
-	L9963_SPI_CS_UNSELECT;
+	//L9963_SPI_CS_UNSELECT;
 
+	smallEndToBigEnd((uint8 *)spi_rx);
+
+
+  	Delay(319); /*Total Delay time need to be 219us */
 
 	/* Doing CRC verification*/
 	if (spi_rx->B.CRC_1 == CrcCompute_L9963(spi_rx->R))
@@ -462,8 +480,8 @@ L9963_SPI_CS_SELECT;
 	}
 	else
 	{
-		//return false;
-		return true;
+		return false;
+		
 	}
 
 }
@@ -488,9 +506,9 @@ uint8 L9963_Direct_Write(uint8 *spi_mosi, uint8 *spi_miso)
 {
 	L9963_SPI_Rx_Inst_t spi_rx;
 	/*3) exchange data over SPI bus*/
-	L9963_SPI_CS_SELECT;
+	//L9963_SPI_CS_SELECT;
 	GCDD_L9963_TxData(spi_mosi, spi_miso, 5);
-	L9963_SPI_CS_UNSELECT;
+//	L9963_SPI_CS_UNSELECT;
 
 
 	spi_rx.R = ((uint64) * spi_miso << 32)
@@ -560,46 +578,27 @@ uint8 L9963_Single_Read(L9963_Addr_t addr, uint8 device_id,
 	
 	
 //	/*3) exchange data over SPI bus*/
-//	L9963_SPI_CS_SELECT;
-//	GCDD_L9963_TxData(&spi_mosi[0],
-//			(((uint8 *) spi_rx) + 3), 5);
-//L9963_SPI_CS_UNSELECT;
-//	Delay(319); /*Total Delay time need to be 219us */
-//	L9963_SPI_CS_SELECT;
-//	GCDD_L9963_TxData(&spi_mosi[0],
-//			(((uint8 *) spi_rx) + 3), 5);
-//L9963_SPI_CS_UNSELECT;
-//	Delay(319); /*Total Delay time need to be 219us */
-//	
-//	
-	
-//	/*3) exchange data over SPI bus*/
-//	L9963_SPI_CS_SELECT;
-//	GCDD_L9963_TxData(&spi_mosi[0],
-//			(((uint8 *) spi_rx) + 3), 5);
-//L9963_SPI_CS_UNSELECT;
-//	Delay(319); /*Total Delay time need to be 219us */
-//	L9963_SPI_CS_SELECT;
-//	GCDD_L9963_TxData(&spi_mosi[0],
-//			(((uint8 *) spi_rx) + 3), 5);
-//L9963_SPI_CS_UNSELECT;
-//	Delay(319); /*Total Delay time need to be 219us */
-//	
-//	
-		/*3) exchange data over SPI bus*/
-	L9963_SPI_CS_SELECT;
+
+	//L9963_SPI_CS_SELECT;
 	GCDD_L9963_TxData(&spi_mosi[0],
 			(((uint8 *) spi_rx) ), 5);
-L9963_SPI_CS_UNSELECT;
+//L9963_SPI_CS_UNSELECT;
 	Delay(319); /*Total Delay time need to be 219us */
-	L9963_SPI_CS_SELECT;
+	Delay(319); /*Total Delay time need to be 219us */
+	Delay(319); /*Total Delay time need to be 219us */
+	Delay(319); /*Total Delay time need to be 219us */
+	Delay(319); /*Total Delay time need to be 219us */
+
+
 	GCDD_L9963_TxData(&spi_mosi[0],
 			(((uint8 *) spi_rx) ), 5);
-L9963_SPI_CS_UNSELECT;
+//L9963_SPI_CS_UNSELECT;
 	Delay(319); /*Total Delay time need to be 219us */
-	
-	
-	
+	Delay(319); /*Total Delay time need to be 219us */
+	Delay(319); /*Total Delay time need to be 219us */
+	Delay(319); /*Total Delay time need to be 219us */
+
+	smallEndToBigEnd((uint8 *) spi_rx);
 	
 	
 	
@@ -641,19 +640,21 @@ uint8 L9963_Single_Read_temp(L9963_Addr_t addr, uint8 device_id,
 	spi_mosi[3] = *(spi_tx_data + 6);
 	spi_mosi[4] = *(spi_tx_data + 7);
 	/*3) exchange data over SPI bus*/
-	L9963_SPI_CS_SELECT;
+	//L9963_SPI_CS_SELECT;
 	GCDD_L9963_TxData(&spi_mosi[0],
 			(((uint8 *) spi_rx) + 3), 5);
-L9963_SPI_CS_UNSELECT;
+
+//L9963_SPI_CS_UNSELECT;
 	Delay(319); /*Total Delay time need to be 219us */
 	Delay(319);
 	Delay(319);Delay(319);
 	Delay(319);
 	Delay(319);
-	L9963_SPI_CS_SELECT;
+	
+	//L9963_SPI_CS_SELECT;
 	GCDD_L9963_TxData(&spi_mosi[0],
 			(((uint8 *) spi_rx) + 3), 5);
-L9963_SPI_CS_UNSELECT;
+//L9963_SPI_CS_UNSELECT;
 Delay(319); /*Total Delay time need to be 219us */
 
 	/* Doing CRC verification*/
@@ -738,13 +739,13 @@ uint8 L9963_Direct_Read(uint8 *spi_mosi, uint8 *spi_miso)
 {
 	L9963_SPI_Rx_Inst_t spi_rx;
 	/*3) exchange data over SPI bus*/
-	L9963_SPI_CS_SELECT;
+	//L9963_SPI_CS_SELECT;
 	GCDD_L9963_TxData(spi_mosi, spi_miso, 5);
-L9963_SPI_CS_UNSELECT;
+//L9963_SPI_CS_UNSELECT;
 	Delay(319);
-L9963_SPI_CS_SELECT;
+//L9963_SPI_CS_SELECT;
 	GCDD_L9963_TxData(spi_mosi, spi_miso, 5);
-L9963_SPI_CS_UNSELECT;
+//L9963_SPI_CS_UNSELECT;
 
 	spi_rx.R = ((uint64) * spi_miso << 32)
 			+ ((uint32) *(spi_miso + 1) << 24)
@@ -843,7 +844,7 @@ uint8 L9963_Burst_Read(L9963_Addr_t addr, uint8 device_id,
 //	uint64 Time_start = 0;
 //#endif
 
-
+	spi_rx.R = 0;   /////////////////////mA
 	spi_miso_address = spi_miso;
 	/*1) package instruction*/
 	spi_tx_inst.R = 0;
@@ -866,7 +867,7 @@ uint8 L9963_Burst_Read(L9963_Addr_t addr, uint8 device_id,
 //	
 	
 	
-		spi_mosi[0] = *(spi_tx_data + 4); /*first 24 bit is reseved*/
+	spi_mosi[0] = *(spi_tx_data + 4); /*first 24 bit is reseved*/
 	spi_mosi[1] = *(spi_tx_data + 3);
 	spi_mosi[2] = *(spi_tx_data + 2);
 	spi_mosi[3] = *(spi_tx_data + 1);
@@ -875,9 +876,9 @@ uint8 L9963_Burst_Read(L9963_Addr_t addr, uint8 device_id,
 	
 
 	/*3) exchange data over SPI bus*/
-	L9963_SPI_CS_SELECT;
+	//L9963_SPI_CS_SELECT;
 	GCDD_L9963_TxData(&spi_mosi[0], spi_miso, 5);
-	L9963_SPI_CS_UNSELECT;
+	//L9963_SPI_CS_UNSELECT;
 
 	spi_rx.R = ((uint64) * spi_miso << 32)
 			+ ((uint32) *(spi_miso + 1) << 24)
@@ -885,21 +886,23 @@ uint8 L9963_Burst_Read(L9963_Addr_t addr, uint8 device_id,
 			+ ((uint16) *(spi_miso + 3) << 8) + *(spi_miso + 4);
 #ifndef USE_L9963T
 	/* Doing CRC verification*/
-	if (spi_rx.B._1 == CrcCompute_L9963(spi_rx.R))
+	if (spi_rx.B.CRC_1 == CrcCompute_L9963(spi_rx.R))
 	{
 	}
 	else
 	{
-		//return_code = false;
-		return_code = true;
+		return_code = false;
+		//return_code = true;
 	}
 #endif
 	Delay(519); /*Total Delay time need to be 419 */
+	Delay(519);
+	Delay(519);
 	/*Select the SPI to Receive the Burst data*/
 	//LY_NEED_LOW_CS_BEFORE_READ_?_
 	//spi_lld_select(SPID_Temp);
-	L9963_SPI_CS_SELECT;
-    spi_mosi[0] = 0xFF; /*Burst read is reseved*/
+	//L9963_SPI_CS_SELECT;
+  spi_mosi[0] = 0xFF; /*Burst read is reseved*/
 	spi_mosi[1] = 0xFF; /*Burst read bit is reseved*/
 	spi_mosi[2] = 0xFF; /*Burst read bit is reseved*/
 	spi_mosi[3] = 0xFF; /*Burst read bit is reseved*/
@@ -925,11 +928,13 @@ uint8 L9963_Burst_Read(L9963_Addr_t addr, uint8 device_id,
 //			}
 //			*/
 //		}
-		L9963_SPI_CS_SELECT;
+//		L9963_SPI_CS_SELECT;
 
 		GCDD_L9963_TxData(&spi_mosi[0], spi_miso, 5);
 
-		L9963_SPI_CS_UNSELECT;
+	//	L9963_SPI_CS_UNSELECT;
+	
+	
 #else
 		GCDD_L9963_TxData(SPID_Temp, &spi_mosi[0], spi_miso, 5);
 #endif
@@ -937,8 +942,15 @@ uint8 L9963_Burst_Read(L9963_Addr_t addr, uint8 device_id,
 		//spi_rx.R = *(uint64*) (spi_miso - 3);
 		
 		
-				spi_rx.R = *(uint64*) (spi_miso - 3);
-
+		//	spi_rx.R = *(uint64*) (spi_miso );
+			
+				spi_rx.R = ((uint64) * spi_miso << 32)
+			+ ((uint32) *(spi_miso + 1) << 24)
+			+ ((uint32) *(spi_miso + 2) << 16)
+			+ ((uint16) *(spi_miso + 3) << 8) + *(spi_miso + 4);
+			
+			Delay(519);
+			Delay(519);
 #ifdef DEBUG
 		while(L9963_Register_Update(&spi_rx, addr, device_id)!=true);
 #endif
@@ -955,7 +967,8 @@ uint8 L9963_Burst_Read(L9963_Addr_t addr, uint8 device_id,
 			return_code = true;
 		}
 	}
-	L9963_SPI_CS_UNSELECT;
+	//L9963_SPI_CS_UNSELECT;
+			Delay(519);
 
 	/* Here is the code for fix a bug when using the Burst, because the BURST_7ACMD will not update the diagnostic information*/
 	if (addr == BURST_7ACMD)
@@ -1044,9 +1057,9 @@ uint8 L9963_Burst_Read_Onchip(L9963_Addr_t addr, uint8 device_id,
 	spi_mosi[3] = *(spi_tx_data + 6);
 	spi_mosi[4] = *(spi_tx_data + 7);
 	/*3) exchange data over SPI bus*/
-	L9963_SPI_CS_SELECT;
+//	L9963_SPI_CS_SELECT;
 	GCDD_L9963_TxData(&spi_mosi[0], &spi_miso[0], 5);
-L9963_SPI_CS_UNSELECT;
+  //L9963_SPI_CS_UNSELECT;
 
 	spi_rx->R = ((uint64) spi_miso[0] << 32) + ((uint32) spi_miso[1] << 24)
 			+ ((uint32) spi_miso[2] << 16) + ((uint16) spi_miso[3] << 8)
@@ -1062,7 +1075,7 @@ L9963_SPI_CS_UNSELECT;
 	}
 	Delay(419); /*Total Delay time need to be 419 */
 	/*Select the SPI to Receive the Burst data*/
-	L9963_SPI_CS_SELECT;
+	//L9963_SPI_CS_SELECT;
 
 	spi_mosi[0] = 0xFF; /*Burst read is reseved*/
 	spi_mosi[1] = 0xFF; /*Burst read bit is reseved*/
@@ -1086,7 +1099,7 @@ L9963_SPI_CS_UNSELECT;
 			return false;
 		}
 	}
-	L9963_SPI_CS_UNSELECT;
+	//L9963_SPI_CS_UNSELECT;
 	return true;
 }
 

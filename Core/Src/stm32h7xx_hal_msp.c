@@ -88,6 +88,12 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
   if(hspi->Instance==SPI2)
   {
   /* USER CODE BEGIN SPI2_MspInit 0 */
+//			GPIO_InitStruct.Pin = GPIO_PIN_10;
+//	    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+//	    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+//		  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+
+//	    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* USER CODE END SPI2_MspInit 0 */
 
@@ -118,7 +124,14 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
     PC2_C     ------> SPI2_MISO
     PB10     ------> SPI2_SCK
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_2;
+    GPIO_InitStruct.Pin = GPIO_PIN_1;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = GPIO_PIN_2;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
@@ -127,7 +140,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
 
     GPIO_InitStruct.Pin = GPIO_PIN_10;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -136,6 +149,10 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
     HAL_NVIC_SetPriority(SPI2_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(SPI2_IRQn);
   /* USER CODE BEGIN SPI2_MspInit 1 */
+
+
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_RESET);
+
 
   /* USER CODE END SPI2_MspInit 1 */
   }
@@ -170,6 +187,9 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
     /* SPI2 interrupt DeInit */
     HAL_NVIC_DisableIRQ(SPI2_IRQn);
   /* USER CODE BEGIN SPI2_MspDeInit 1 */
+	
+		
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_RESET);
 
   /* USER CODE END SPI2_MspDeInit 1 */
   }

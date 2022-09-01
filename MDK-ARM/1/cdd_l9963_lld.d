@@ -36,3 +36,5 @@
 1\cdd_l9963_lld.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr_ex.h
 1\cdd_l9963_lld.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi.h
 1\cdd_l9963_lld.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi_ex.h
+1\cdd_l9963_lld.o: ../Core/Inc/CDD_L9963_drv.h
+1\cdd_l9963_lld.o: ../Core/Inc/CDD_L9963_crc.h

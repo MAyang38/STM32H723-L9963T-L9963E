@@ -849,10 +849,12 @@ typedef struct L9963_Reg_tag
 	{
 		uint32_t R;
 		struct
-		{
-			uint32_t reserved :15;
-			uint32_t D_READY :1;
+		{	
+			
 			uint32_t VOLT :16;
+			uint32_t D_READY :1;
+			uint32_t reserved :15;
+
 		} B;
 	} VCELL1;
 	/*******************************************************/
@@ -863,9 +865,10 @@ typedef struct L9963_Reg_tag
 		uint32_t R;
 		struct
 		{
-			uint32_t reserved :15;
+				uint32_t VOLT :16;
 			uint32_t D_READY :1;
-			uint32_t VOLT :16;
+			uint32_t reserved :15;
+
 		} B;
 	} VCELL2;
 	/*******************************************************/
@@ -876,9 +879,10 @@ typedef struct L9963_Reg_tag
 		uint32_t R;
 		struct
 		{
-			uint32_t reserved :15;
-			uint32_t D_READY :1;
 			uint32_t VOLT :16;
+			uint32_t D_READY :1;
+			uint32_t reserved :15;
+
 		} B;
 	} VCELL3;
 	/*******************************************************/
@@ -889,9 +893,10 @@ typedef struct L9963_Reg_tag
 		uint32_t R;
 		struct
 		{
-			uint32_t reserved :15;
-			uint32_t D_READY :1;
 			uint32_t VOLT :16;
+			uint32_t D_READY :1;
+			uint32_t reserved :15;
+
 		} B;
 	} VCELL4;
 	/*******************************************************/
@@ -902,9 +907,10 @@ typedef struct L9963_Reg_tag
 		uint32_t R;
 		struct
 		{
-			uint32_t reserved :15;
-			uint32_t D_READY :1;
 			uint32_t VOLT :16;
+			uint32_t D_READY :1;
+			uint32_t reserved :15;
+
 		} B;
 	} VCELL5;
 	/*******************************************************/
@@ -915,9 +921,10 @@ typedef struct L9963_Reg_tag
 		uint32_t R;
 		struct
 		{
-			uint32_t reserved :15;
-			uint32_t D_READY :1;
 			uint32_t VOLT :16;
+			uint32_t D_READY :1;
+			uint32_t reserved :15;
+
 		} B;
 	} VCELL6;
 	/*******************************************************/
@@ -928,9 +935,10 @@ typedef struct L9963_Reg_tag
 		uint32_t R;
 		struct
 		{
-			uint32_t reserved :15;
+				uint32_t VOLT :16;
 			uint32_t D_READY :1;
-			uint32_t VOLT :16;
+			uint32_t reserved :15;
+
 		} B;
 	} VCELL7;
 	/*******************************************************/
@@ -941,9 +949,10 @@ typedef struct L9963_Reg_tag
 		uint32_t R;
 		struct
 		{
-			uint32_t reserved :15;
+				uint32_t VOLT :16;
 			uint32_t D_READY :1;
-			uint32_t VOLT :16;
+			uint32_t reserved :15;
+
 		} B;
 	} VCELL8;
 	/*******************************************************/
@@ -954,9 +963,10 @@ typedef struct L9963_Reg_tag
 		uint32_t R;
 		struct
 		{
-			uint32_t reserved :15;
+				uint32_t VOLT :16;
 			uint32_t D_READY :1;
-			uint32_t VOLT :16;
+			uint32_t reserved :15;
+
 		} B;
 	} VCELL9;
 	/*******************************************************/
@@ -967,9 +977,10 @@ typedef struct L9963_Reg_tag
 		uint32_t R;
 		struct
 		{
-			uint32_t reserved :15;
+				uint32_t VOLT :16;
 			uint32_t D_READY :1;
-			uint32_t VOLT :16;
+			uint32_t reserved :15;
+
 		} B;
 	} VCELL10;
 	/*******************************************************/
@@ -980,9 +991,10 @@ typedef struct L9963_Reg_tag
 		uint32_t R;
 		struct
 		{
+		  uint32_t VOLT :16;
+		 	uint32_t D_READY :1;
 			uint32_t reserved :15;
-			uint32_t D_READY :1;
-			uint32_t VOLT :16;
+
 		} B;
 	} VCELL11;
 	/*******************************************************/
@@ -993,9 +1005,10 @@ typedef struct L9963_Reg_tag
 		uint32_t R;
 		struct
 		{
-			uint32_t reserved :15;
-			uint32_t D_READY :1;
 			uint32_t VOLT :16;
+			uint32_t D_READY :1;
+			uint32_t reserved :15;
+
 		} B;
 	} VCELL12;
 	/*******************************************************/
@@ -1006,9 +1019,10 @@ typedef struct L9963_Reg_tag
 		uint32_t R;
 		struct
 		{
-			uint32_t reserved :15;
-			uint32_t D_READY :1;
 			uint32_t VOLT :16;
+			uint32_t D_READY :1;
+			uint32_t reserved :15;
+
 		} B;
 	} VCELL13;
 	/*******************************************************/
@@ -1019,9 +1033,10 @@ typedef struct L9963_Reg_tag
 		uint32_t R;
 		struct
 		{
-			uint32_t reserved :15;
-			uint32_t D_READY :1;
 			uint32_t VOLT :16;
+			uint32_t D_READY :1;
+			uint32_t reserved :15;
+
 		} B;
 	} VCELL14;
 	/*******************************************************/
@@ -2043,8 +2058,8 @@ int32_t Calculate_original_data_18bit(uint32_t InputWord);
 int32_t Calculate_original_data_32bit(uint32_t InputWord);
 uint8 L9963_GPIO_config(GPIO_CHANNEL gpio_channel, GPIO_MODE1 gpio_mode, uint8 device_id);
 uint8 L9963_Test_Cell_Temp(void);
-uint8 L9963_Single_Read_temp(L9963_Addr_t addr, uint8 device_id,
-		L9963_SPI_Rx_Inst_t* spi_rx);
+uint8 L9963_Single_Read_temp(L9963_Addr_t addr, uint8 device_id, L9963_SPI_Rx_Inst_t* spi_rx);
+void smallEndToBigEnd(uint8* spi_rx);
 
 
 void L9963_Register_Reset_value_Init(void);
